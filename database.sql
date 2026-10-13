@@ -1,0 +1,6 @@
+CREATE DATABASE IF NOT EXISTS quickbite; USE quickbite;
+CREATE TABLE users(id INT AUTO_INCREMENT PRIMARY KEY,name VARCHAR(100),email VARCHAR(190) UNIQUE,password VARCHAR(255),role ENUM('customer','admin') DEFAULT 'customer');
+CREATE TABLE products(id INT AUTO_INCREMENT PRIMARY KEY,name VARCHAR(100),category VARCHAR(60),price DECIMAL(10,2),active BOOLEAN DEFAULT TRUE);
+CREATE TABLE orders(id INT AUTO_INCREMENT PRIMARY KEY,user_id INT,total DECIMAL(10,2),status ENUM('pending','preparing','ready','completed','cancelled') DEFAULT 'pending',created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,FOREIGN KEY(user_id) REFERENCES users(id));
+CREATE TABLE order_items(id INT AUTO_INCREMENT PRIMARY KEY,order_id INT,product_id INT,quantity INT,price DECIMAL(10,2),FOREIGN KEY(order_id) REFERENCES orders(id),FOREIGN KEY(product_id) REFERENCES products(id));
+INSERT INTO products(name,category,price) VALUES ('Burger','Burgers',250),('Chicken Burger','Burgers',230),('Pizza','Pizza',420),('French Fries','Sides',110),('Juice','Drinks',100),('Water','Drinks',35);
